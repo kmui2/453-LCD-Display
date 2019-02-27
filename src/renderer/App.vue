@@ -3,6 +3,7 @@
     <rock-paper-sissors></rock-paper-sissors>
     <simon-says></simon-says>
     <tic-tac-toe></tic-tac-toe>
+    <trivia></trivia>
   </div>
 </template>
 
