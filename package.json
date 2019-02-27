@@ -1,5 +1,5 @@
 {
-  "name": "453-vue",
+  "name": "LCD-vue",
   "version": "0.0.1",
   "author": "",
   "description": "An electron-vue project",
@@ -20,7 +20,7 @@
     "install": "electron-rebuild"
   },
   "build": {
-    "productName": "453-vue",
+    "productName": "LCD-vue",
     "appId": "com.example.yourapp",
     "directories": {
       "output": "build"

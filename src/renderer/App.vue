@@ -1,15 +1,28 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <rock-paper-sissors></rock-paper-sissors>
+    <simon-says></simon-says>
+    <tic-tac-toe></tic-tac-toe>
   </div>
 </template>
 
 <script>
-  export default {
-    name: '453-vue',
-  };
+import RockPaperSissors from './components/RockPaperSissors.vue';
+import SimonSays from './components/SimonSays.vue';
+import TicTacToe from './components/TicTacToe.vue';
+import Trivia from './components/Trivia.vue';
+
+export default {
+  name: 'LCD-vue',
+  components: {
+    RockPaperSissors,
+    SimonSays,
+    TicTacToe,
+    Trivia,
+  },
+};
 </script>
 
 <style>
-  /* CSS */
+/* CSS */
 </style>

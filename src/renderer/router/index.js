@@ -14,5 +14,21 @@ export default new Router({
       path: '*',
       redirect: '/',
     },
+    // {
+    //   path: '/simon-says',
+    //   component: require('@/components/SimonSays').default,
+    // },
+    // {
+    //   path: '/tic-tac-toe',
+    //   component: require('@/components/TicTacToe').default,
+    // },
+    // {
+    //   path: '/rock-paper-sissors',
+    //   component: require('@/components/RockPaperSissors').default,
+    // },
+    // {
+    //   path: '/trivia',
+    //   component: require('@/components/Trivia').default,
+    // },
   ],
 });

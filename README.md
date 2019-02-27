@@ -1,4 +1,4 @@
-# 453-vue
+# LCD-vue
 
 > An electron-vue project
 

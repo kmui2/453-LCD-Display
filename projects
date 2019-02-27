@@ -18,8 +18,8 @@ detect_indent_width=false
 indent_mode=2
 
 [project]
-name=453-vue
-base_path=/home/pi/453-vue
+name=LCD-vue
+base_path=/home/pi/LCD-vue
 
 [long line marker]
 long_line_behaviour=1
