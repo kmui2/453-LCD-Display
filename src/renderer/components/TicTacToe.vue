@@ -9,5 +9,6 @@
 </script>
 
 <style scoped>
+	/* TODO: add tic tac toe using grid areas */
   /* CSS */
 </style>

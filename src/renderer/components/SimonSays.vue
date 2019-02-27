@@ -1,5 +1,8 @@
 <template>
-	<div>Simon Says</div>
+<!-- TODO: add condition to select background color -->
+	<div class="container red">
+		<div>Simon Says</div>
+	</div>
 </template>
 
 <script>
@@ -9,5 +12,24 @@
 </script>
 
 <style scoped>
-  /* CSS */
+	.container {
+		width: 100vw;
+		height: 100vh;
+	}
+
+	.red {
+		background-color: red;
+	}
+
+	.blue {
+		background-color: blue;
+	}
+
+	.green {
+		background-color: green;
+	}
+
+	.yellow {
+		background-color: yellow;
+	}
 </style>
