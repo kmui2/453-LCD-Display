@@ -1,13 +1,20 @@
 <template>
-	<div>Rock Paper Sissors</div>
+  <div>
+    <h1>Rock Paper Sissors</h1>
+    <h2>Make Your Selection</h2>
+    <img src="../assets/Rock-paper-scissors.jpg" class="picture">
+  </div>
 </template>
 
 <script>
-  export default {
-    name: 'rock-paper-sissors',
-  };
+export default {
+  name: 'rock-paper-sissors',
+};
 </script>
 
 <style scoped>
-  /* CSS */
+/* CSS */
+.picture {
+  width: 100vw;
+}
 </style>
