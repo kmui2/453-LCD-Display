@@ -2,15 +2,33 @@
   <div>
     <div>Tic Tac Toe</div>
     <div class="grid">
-      <div class="grid-0"></div>
-      <div class="grid-1"></div>
-      <div class="grid-2"></div>
-      <div class="grid-3"></div>
-      <div class="grid-4"></div>
-      <div class="grid-5"></div>
-      <div class="grid-6"></div>
-      <div class="grid-7"></div>
-      <div class="grid-8"></div>
+      <div style="grid-area-0" v-bind:class="{ active: grid[0] }" v-on:click="handleClick(0)">
+        <h1>{{ grid[0] }}</h1>
+      </div>
+      <div style="grid-area-1" v-bind:class="{ active: grid[1] }" v-on:click="handleClick(1)">
+        <h1>{{ grid[1] }}</h1>
+      </div>
+      <div style="grid-area-2" v-bind:class="{ active: grid[2] }" v-on:click="handleClick(2)">
+        <h1>{{ grid[2] }}</h1>
+      </div>
+      <div style="grid-area-3" v-bind:class="{ active: grid[3] }" v-on:click="handleClick(3)">
+        <h1>{{ grid[3] }}</h1>
+      </div>
+      <div style="grid-area-4" v-bind:class="{ active: grid[4] }" v-on:click="handleClick(4)">
+        <h1>{{ grid[4] }}</h1>
+      </div>
+      <div style="grid-area-5" v-bind:class="{ active: grid[5] }" v-on:click="handleClick(5)">
+        <h1>{{ grid[5] }}</h1>
+      </div>
+      <div style="grid-area-6" v-bind:class="{ active: grid[6] }" v-on:click="handleClick(6)">
+        <h1>{{ grid[6] }}</h1>
+      </div>
+      <div style="grid-area-7" v-bind:class="{ active: grid[7] }" v-on:click="handleClick(7)">
+        <h1>{{ grid[7] }}</h1>
+      </div>
+      <div style="grid-area-8" v-bind:class="{ active: grid[8] }" v-on:click="handleClick(8)">
+        <h1>{{ grid[8] }}</h1>
+      </div>
     </div>
   </div>
 </template>
@@ -18,11 +36,27 @@
 <script>
 export default {
   name: 'tic-tac-toe',
+  data() {
+    return {
+      player: 'X',
+      grid: ['', '', '', '', '', '', '', '', '', ''],
+    };
+  },
+  methods: {
+    handleClick(i) {
+      this.$set(this.grid, i, this.player);
+      this.player = this.player === 'X' ? 'O' : 'X';
+    },
+  },
 };
 </script>
 
 <style scoped>
 /* TODO: add tic tac toe using grid areas */
+
+.active {
+  background-color: grey;
+}
 
 .grid {
   display: grid;
@@ -36,49 +70,14 @@ export default {
   grid-template-columns: 1fr 1fr 1fr;
 }
 
-/* CSS */
-.grid-0 {
-  grid-area: grid-0;
+.grid > div {
   border: solid;
+  font-size: 3.5em;
+  font-family: 'Gochi Hand', sans-serif;
 }
 
-.grid-1 {
-  grid-area: grid-1;
-  border: solid;
-}
-
-.grid-2 {
-  grid-area: grid-2;
-  border: solid;
-}
-
-.grid-3 {
-  grid-area: grid-3;
-  border: solid;
-}
-
-.grid-4 {
-  grid-area: grid-4;
-  border: solid;
-}
-
-.grid-5 {
-  grid-area: grid-5;
-  border: solid;
-}
-
-.grid-6 {
-  grid-area: grid-6;
-  border: solid;
-}
-
-.grid-7 {
-  grid-area: grid-7;
-  border: solid;
-}
-
-.grid-8 {
-  grid-area: grid-8;
-  border: solid;
+.grid > div > h1 {
+  margin: auto;
+  text-align: center;
 }
 </style>
