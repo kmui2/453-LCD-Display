@@ -34,18 +34,22 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   name: 'tic-tac-toe',
-  data() {
-    return {
-      player: 'X',
-      grid: ['', '', '', '', '', '', '', '', '', ''],
-    };
+  computed: {
+    ...mapGetters(['getTickTacToeGrid']),
+    grid() {
+      return this.getTickTacToeGrid;
+    },
   },
   methods: {
+    ...mapActions(['setTicTacToeSquare']),
     handleClick(i) {
-      this.$set(this.grid, i, this.player);
-      this.player = this.player === 'X' ? 'O' : 'X';
+      // this.$set(this.grid, i, this.player);
+      // this.player = this.player === 'X' ? 'O' : 'X';
+      this.setTicTacToeSquare(i);
     },
   },
 };

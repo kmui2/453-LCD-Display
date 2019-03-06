@@ -36,43 +36,6 @@
 <script>
 	/* eslint-disable */
   import SystemInformation from './LandingPage/SystemInformation';
-  
-  import * as SerialPort from 'serialport';
-	// const Readline = require('@serialport/parser-readline')
-
-	SerialPort.list((err, ports) => {
-	  console.log('ports', ports);
-	  if (err) {
-		  console.error(err);
-		return
-	  }
-
-	  console.log(ports);
-	})
-
-
-	const port = new SerialPort("/dev/ttyACM0", {
-		baudRate: 115200,
-	});
-
-	port.on('data', function (data) {
-		console.log('Data:', data)
-	})
-
-	// const parser = port.pipe(new Readline());
-
-	// parser.on('data', function (data) {
-	//     console.log('Data:', data)
-	// })
-
-
-	port.write('hello world\0');
-	  
-	// Open errors will be emitted as an error event
-	port.on('error', function(err) {
-		console.log('Error: ', err.message)
-	})
-
 
   export default {
     name: 'landing-page',
