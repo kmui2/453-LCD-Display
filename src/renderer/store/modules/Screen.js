@@ -12,7 +12,7 @@ import {
 //   ports.find((port) => port.manufacturer === 'Arduino (www.arduino.cc)');
 
 const getLaunchpadPort = (ports) =>
-  ports.find((port) => port.manufacturer === 'Texas Instruments');
+  ports.find((port) => port.manufacturer === 'FTDI');
 
 // const Readline = require('@serialport/parser-readline')
 /* eslint-disable import/no-extraneous-dependencies */
