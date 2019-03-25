@@ -4,6 +4,7 @@
     <simon-says v-if="screen == SIMON_SAYS"></simon-says>
     <tic-tac-toe v-if="screen == TIC_TAC_TOE"></tic-tac-toe>
     <trivia v-if="screen == TRIVIA"></trivia>
+    <time-and-down v-if="screen == TIME_AND_DOWN"></time-and-down>
     <div v-if="screen == MAIN">
       <h1>Main Screen</h1>
     </div>
@@ -16,12 +17,14 @@ import RockPaperSissors from './components/RockPaperSissors.vue';
 import SimonSays from './components/SimonSays.vue';
 import TicTacToe from './components/TicTacToe.vue';
 import Trivia from './components/Trivia.vue';
+import TimeAndDown from './components/TimeAndDown.vue';
 import {
   ROCK_PAPER_SCISSORS,
   SIMON_SAYS,
   TIC_TAC_TOE,
   MAIN,
   TRIVIA,
+  TIME_AND_DOWN,
 } from './constants/screens.js';
 
 export default {
@@ -31,6 +34,7 @@ export default {
     SimonSays,
     TicTacToe,
     Trivia,
+    TimeAndDown,
   },
   computed: {
     ...mapGetters(['getScreen']),
@@ -48,6 +52,7 @@ export default {
     TRIVIA,
     TIC_TAC_TOE,
     MAIN,
+    TIME_AND_DOWN,
   }),
 };
 </script>

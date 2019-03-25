@@ -6,6 +6,7 @@ import {
   TIC_TAC_TOE,
   TRIVIA,
   MAIN,
+  TIME_AND_DOWN,
 } from '../../constants/screens';
 
 // const getArduinoPort = (ports) =>
@@ -65,7 +66,7 @@ const connectToSerialPort = () =>
   });
 
 const state = {
-  screen: TIC_TAC_TOE,
+  screen: TIME_AND_DOWN,
   // serialPort: undefined,
 };
 
@@ -111,6 +112,9 @@ const actions = {
           break;
         case MAIN:
           dispatch('setScreen', MAIN);
+          break;
+        case TIME_AND_DOWN:
+          dispatch('setScreen', TIME_AND_DOWN);
           break;
         default:
           console.log('unknown command:');
