@@ -4,7 +4,6 @@
       <div>3rd Q</div>
     </div>
     <div class="time">
-      <div class="annotation">Time</div>
       <div class="value">5:00</div>
     </div>
     <div class="down-distance-container">
@@ -55,6 +54,7 @@ export default {
   text-align: center;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .time .annotation {
