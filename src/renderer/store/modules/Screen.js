@@ -7,13 +7,15 @@ import {
   TRIVIA,
   MAIN,
   TIME_AND_DOWN,
-} from '../../constants/screens';
+  TIME,
+} from '../../constants/commands';
 
 // const getArduinoPort = (ports) =>
 //   ports.find((port) => port.manufacturer === 'Arduino (www.arduino.cc)');
 
 const getLaunchpadPort = (ports) =>
-  ports.find((port) => port.manufacturer === 'FTDI');
+  // ports.find((port) => port.manufacturer === 'FTDI');
+  ports.find((port) => port.comName === 'COM4');
 
 // const Readline = require('@serialport/parser-readline')
 /* eslint-disable import/no-extraneous-dependencies */
@@ -93,9 +95,11 @@ const actions = {
     serialPort = await connectToSerialPort();
     const parser = serialPort.pipe(new Delimiter({ delimiter: '\n' }));
     parser.on('data', (data) => {
-      let cmd = data.toString('ascii');
-      cmd = cmd.slice(0, cmd.length - 1); // Remove new line character.
-      console.log(cmd);
+      let line = data.toString('ascii');
+      line = line.slice(0, line.length - 1); // Remove new line character.
+      const [cmd, ...args] = line.split(' ');
+      console.log('Command: ', cmd);
+      console.log('Args:', args);
 
       switch (cmd) {
         case ROCK_PAPER_SCISSORS:
@@ -116,6 +120,16 @@ const actions = {
         case TIME_AND_DOWN:
           dispatch('setScreen', TIME_AND_DOWN);
           break;
+        case TIME: {
+          const [quarter, minutes, seconds, down, distance] = args;
+          const time = `${minutes}:${seconds}`;
+          console.log('Quarter:', quarter);
+          console.log('Time:', time);
+          console.log('Down:', down);
+          console.log('Distance:', distance);
+          dispatch('setTimeAndDown', { quarter, time, down, distance });
+          break;
+        }
         default:
           console.log('unknown command:');
       }

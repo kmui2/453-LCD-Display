@@ -1,21 +1,21 @@
 <template>
   <div class="container">
     <div class="quarter">
-      <div>3rd Q</div>
+      <div>{{ quarter }}</div>
     </div>
     <div class="time">
-      <div class="value">5:00</div>
+      <div class="value">{{ time }}</div>
     </div>
     <div class="down-distance-container">
       <div class="down">
-        <div class="value">2nd</div>
+        <div class="value">{{ down }}</div>
         <div class="annotation">Down</div>
       </div>
       <div class="and">
         <div class="value">&</div>
       </div>
       <div class="distance">
-        <div class="value">10</div>
+        <div class="value">{{ distance }}</div>
         <div class="annotation">Distance</div>
       </div>
     </div>
@@ -23,8 +23,28 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   name: 'time-and-down',
+  computed: {
+    ...mapGetters(['getTimeAndDown']),
+    quarter() {
+      return this.getTimeAndDown.quarter;
+    },
+    time() {
+      return this.getTimeAndDown.time;
+    },
+    down() {
+      return this.getTimeAndDown.down;
+    },
+    distance() {
+      return this.getTimeAndDown.distance;
+    },
+  },
+  methods: {
+    ...mapActions(['setTimeAndDown']),
+  },
 };
 </script>
 
