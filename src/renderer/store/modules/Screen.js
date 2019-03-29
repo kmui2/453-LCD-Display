@@ -122,7 +122,9 @@ const actions = {
           break;
         case TIME: {
           const [quarter, minutes, seconds, down, distance] = args;
+          // TODO: Could use moment to properly format the time.
           const time = `${minutes}:${seconds}`;
+          // TODO: Could use d3 to get correct format (1st, 2nd, 3rd).
           console.log('Quarter:', quarter);
           console.log('Time:', time);
           console.log('Down:', down);
