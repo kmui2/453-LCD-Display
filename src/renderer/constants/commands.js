@@ -6,3 +6,4 @@ export const TRIVIA = 'TRIVIA';
 
 export const TIME_AND_DOWN = 'TIME_AND_DOWN';
 export const TIME = 'TIME';
+export const WELCOME = 'WELCOME';

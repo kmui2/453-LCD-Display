@@ -4,3 +4,4 @@ export const SIMON_SAYS = 'SIMON_SAYS';
 export const TIC_TAC_TOE = 'TIC_TAC_TOE';
 export const TRIVIA = 'TRIVIA';
 export const TIME_AND_DOWN = 'TIME_AND_DOWN';
+export const WELCOME = 'WELCOME';
