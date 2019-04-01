@@ -10,6 +10,7 @@ import {
   TIME,
   WELCOME,
   SELECT_PLAY,
+  OUTCOME,
 } from '../../constants/commands';
 
 // const getArduinoPort = (ports) =>
@@ -70,7 +71,7 @@ const connectToSerialPort = () =>
   });
 
 const state = {
-  screen: SELECT_PLAY,
+  screen: OUTCOME,
   // serialPort: undefined,
 };
 
@@ -127,6 +128,9 @@ const actions = {
           break;
         case SELECT_PLAY:
           dispatch('setScreen', SELECT_PLAY);
+          break;
+        case OUTCOME:
+          dispatch('setScreen', OUTCOME);
           break;
         case TIME: {
           const [quarter, minutes, seconds, down, distance] = args;
