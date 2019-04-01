@@ -7,3 +7,4 @@ export const TIME_AND_DOWN = 'TIME_AND_DOWN';
 export const WELCOME = 'WELCOME';
 export const SELECT_PLAY = 'SELECT_PLAY'
 export const OUTCOME = 'OUTCOME';
+export const END_Q = 'END_Q';

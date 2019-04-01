@@ -8,6 +8,7 @@
     <welcome v-if="screen == WELCOME"></welcome>
     <select-play v-if="screen == SELECT_PLAY"></select-play>
     <outcome v-if="screen == OUTCOME"></outcome>
+    <end-q v-if="screen == END_Q"></end-q>
     <div v-if="screen == MAIN">
       <h1>Main Screen</h1>
     </div>
@@ -24,6 +25,7 @@ import TimeAndDown from './components/TimeAndDown.vue';
 import Welcome from './components/Welcome.vue';
 import SelectPlay from './components/SelectPlay.vue';
 import Outcome from './components/Outcome.vue';
+import EndQ from './components/EndQ.vue';
 import {
   ROCK_PAPER_SCISSORS,
   SIMON_SAYS,
@@ -34,6 +36,7 @@ import {
   WELCOME,
   SELECT_PLAY,
   OUTCOME,
+  END_Q,
 } from './constants/screens.js';
 
 export default {
@@ -47,6 +50,7 @@ export default {
     Welcome,
     SelectPlay,
     Outcome,
+    EndQ,
   },
   computed: {
     ...mapGetters(['getScreen']),
@@ -68,6 +72,7 @@ export default {
     WELCOME,
     SELECT_PLAY,
     OUTCOME,
+    END_Q,
   }),
 };
 </script>
