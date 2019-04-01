@@ -5,3 +5,4 @@ export const TIC_TAC_TOE = 'TIC_TAC_TOE';
 export const TRIVIA = 'TRIVIA';
 export const TIME_AND_DOWN = 'TIME_AND_DOWN';
 export const WELCOME = 'WELCOME';
+export const SELECT_PLAY = 'SELECT_PLAY'

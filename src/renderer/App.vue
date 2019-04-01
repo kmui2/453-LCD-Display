@@ -6,6 +6,7 @@
     <trivia v-if="screen == TRIVIA"></trivia>
     <time-and-down v-if="screen == TIME_AND_DOWN"></time-and-down>
     <welcome v-if="screen == WELCOME"></welcome>
+    <select-play v-if="screen == SELECT_PLAY"></select-play>
     <div v-if="screen == MAIN">
       <h1>Main Screen</h1>
     </div>
@@ -20,6 +21,7 @@ import TicTacToe from './components/TicTacToe.vue';
 import Trivia from './components/Trivia.vue';
 import TimeAndDown from './components/TimeAndDown.vue';
 import Welcome from './components/Welcome.vue';
+import SelectPlay from './components/SelectPlay.vue';
 import {
   ROCK_PAPER_SCISSORS,
   SIMON_SAYS,
@@ -28,6 +30,7 @@ import {
   TRIVIA,
   TIME_AND_DOWN,
   WELCOME,
+  SELECT_PLAY,
 } from './constants/screens.js';
 
 export default {
@@ -39,6 +42,7 @@ export default {
     Trivia,
     TimeAndDown,
     Welcome,
+    SelectPlay,
   },
   computed: {
     ...mapGetters(['getScreen']),
@@ -58,6 +62,7 @@ export default {
     MAIN,
     TIME_AND_DOWN,
     WELCOME,
+    SELECT_PLAY,
   }),
 };
 </script>
