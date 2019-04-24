@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
 import * as SerialPort from 'serialport';
-
+import * as program from 'commander';
 import {
   ROCK_PAPER_SCISSORS,
   SIMON_SAYS,
@@ -7,12 +8,14 @@ import {
   TRIVIA,
   MAIN,
   TIME_AND_DOWN,
-  TIME,
   WELCOME,
   SELECT_PLAY,
   OUTCOME,
   END_Q,
-} from '../../constants/commands';
+} from '../../constants/screens';
+
+// const program = () => require('commander');
+global.program = program;
 
 // const getArduinoPort = (ports) =>
 //   ports.find((port) => port.manufacturer === 'Arduino (www.arduino.cc)');
@@ -59,10 +62,6 @@ const connectToSerialPort = () =>
           resolve(serialPort);
         });
 
-        // serialPort.on('data', (data) => {
-        //   console.log('Data:', data);
-        // });
-
         // Open errors will be emitted as an error event
         serialPort.on('error', (err) => {
           reject(err);
@@ -82,10 +81,6 @@ const mutations = {
     const { screen } = payload;
     state.screen = screen;
   },
-  // SET_SERIAL_PORT(state, payload) {
-  //   const { serialPort } = payload;
-  //   state.serialPort = serialPort;
-  // },
 };
 
 let serialPort;
@@ -94,63 +89,119 @@ const actions = {
   setScreen({ commit }, screen) {
     commit('SET_SCREEN', { screen });
   },
-  async startPortRead({ dispatch }) {
-    console.log('startPortRead');
+  async startPortRead({ dispatch, state }) {
     serialPort = await connectToSerialPort();
     const parser = serialPort.pipe(new Delimiter({ delimiter: '\n' }));
     parser.on('data', (data) => {
       let line = data.toString('ascii');
       line = line.slice(0, line.length - 1); // Remove new line character.
-      const [cmd, ...args] = line.split(' ');
-      console.log('Command: ', cmd);
-      console.log('Args:', args);
+      const argv = line.split(' ');
+      // eslint-disable-next-line no-unused-vars
+      program
+        .command('ROCK_PAPER_SCISSORS')
+        .option('-1', '--player1 <move>', "Player 1's move")
+        .option('-2', '--player2 <move>', "Player 2's move")
+        .action(({ player1, player2 }) => {
+          if (state.screen !== ROCK_PAPER_SCISSORS) {
+            dispatch('setScreen', ROCK_PAPER_SCISSORS);
+          }
+        });
+      program
+        .command('SIMON_SAYS')
+        .option('-c', '--color <color>', 'Color')
+        .action(({ color = 'placeholder' }) => {
+          if (state.screen !== SIMON_SAYS) {
+            dispatch('setScreen', SIMON_SAYS);
+          }
+        });
+      program
+        .command('TIC_TAC_TOE')
+        .option('-m', '--markers <player1> <player2>', "Player's markers")
+        .action(({ markers: [player1, player2] }) => {
+          if (state.screen !== TIC_TAC_TOE) {
+            dispatch('setScreen', TIC_TAC_TOE);
+          }
+        });
 
-      switch (cmd) {
-        case ROCK_PAPER_SCISSORS:
-          dispatch('setScreen', ROCK_PAPER_SCISSORS);
-          break;
-        case SIMON_SAYS:
-          dispatch('setScreen', SIMON_SAYS);
-          break;
-        case TIC_TAC_TOE:
-          dispatch('setScreen', TIC_TAC_TOE);
-          break;
-        case TRIVIA:
-          dispatch('setScreen', TRIVIA);
-          break;
-        case MAIN:
+      program
+        .command('TRIVIA')
+        .option(
+          '-q',
+          '--question <question> <choice1> <choice2> <choice3> <choice4>',
+          'Question to display',
+        )
+        .option(
+          '-a',
+          '--answer <answer_number>',
+          'Highlight the choice (must include the --question option)',
+        )
+        .action(() => {
+          if (state.screen !== TRIVIA) {
+            dispatch('setScreen', TRIVIA);
+          }
+        });
+
+      program.command('MAIN').action(() => {
+        if (state.screen !== MAIN) {
           dispatch('setScreen', MAIN);
-          break;
-        case TIME_AND_DOWN:
-          dispatch('setScreen', TIME_AND_DOWN);
-          break;
-        case WELCOME:
-          dispatch('setScreen', WELCOME);
-          break;
-        case SELECT_PLAY:
-          dispatch('setScreen', SELECT_PLAY);
-          break;
-        case OUTCOME:
-          dispatch('setScreen', OUTCOME);
-          break;
-        case END_Q:
-          dispatch('setScreen', END_Q);
-          break;
-        case TIME: {
-          const [quarter, minutes, seconds, down, distance] = args;
-          // TODO: Could use moment to properly format the time.
-          const time = `${minutes}:${seconds}`;
-          // TODO: Could use d3 to get correct format (1st, 2nd, 3rd).
-          console.log('Quarter:', quarter);
-          console.log('Time:', time);
-          console.log('Down:', down);
-          console.log('Distance:', distance);
-          dispatch('setTimeAndDown', { quarter, time, down, distance });
-          break;
         }
-        default:
-          console.log('unknown command:');
-      }
+      });
+
+      program
+        .command('TIME_AND_DOWN')
+        .option('-q, --quarter <quarter>', 'Quarter')
+        .option('-m, --minutes <minutes>', 'Minutes')
+        .option('-s, --seconds <seconds>', 'Seconds')
+        .option('-o, --down <down>', 'Down')
+        .option('-i, --distance <distance>', 'Distance')
+        .parse(['TIME_AND_DOWN', '-q', '2'])
+        .action(
+          ({
+            quarter = state.quarter,
+            minutes = state.minutes,
+            seconds = state.seconds,
+            down = state.down,
+            distance = state.distance,
+          }) => {
+            if (state.screen !== TIME_AND_DOWN) {
+              dispatch('setScreen', TIME_AND_DOWN);
+            }
+            const time =
+              Number(seconds) < 10
+                ? `${minutes}:0${seconds}`
+                : `${minutes}:${seconds}`;
+            dispatch('setTimeAndDown', { quarter, time, down, distance });
+          },
+        );
+
+      program.command('WELCOME').action(() => {
+        if (state.screen !== WELCOME) {
+          dispatch('setScreen', WELCOME);
+        }
+      });
+
+      program.command('SELECT_PLAY').action(() => {
+        if (state.screen !== SELECT_PLAY) {
+          dispatch('setScreen', SELECT_PLAY);
+        }
+      });
+
+      program.command('OUTCOME').action(() => {
+        if (state.screen !== OUTCOME) {
+          dispatch('setScreen', OUTCOME);
+        }
+      });
+
+      program.command('END_Q').action(() => {
+        if (state.screen !== END_Q) {
+          dispatch('setScreen', END_Q);
+        }
+      });
+      program.command('*').action(() => {
+        console.error('unknown command:');
+      });
+
+      program.parse(argv);
     }); // emits data after every '\n'
   },
   // Sending 1 or 2 for player 1 and player 2
