@@ -1,29 +1,26 @@
 /* eslint-disable no-console */
 import * as SerialPort from 'serialport';
+
 import {
+  END_Q,
+  OUTCOME,
   ROCK_PAPER_SCISSORS,
+  SELECT_PLAY,
   SIMON_SAYS,
   TIC_TAC_TOE,
   TRIVIA,
-  MAIN,
   TIME_AND_DOWN,
-  WELCOME,
-  SELECT_PLAY,
-  OUTCOME,
-  END_Q,
 } from '../../constants/screens';
-
-const getProgram = () => require('commander');
 
 // const program = () => require('commander');
 // global.program = program;
 
-// const getArduinoPort = (ports) =>
-//   ports.find((port) => port.manufacturer === 'Arduino (www.arduino.cc)');
+const getArduinoPort = (ports) =>
+  ports.find((port) => port.manufacturer === 'Arduino (www.arduino.cc)');
 
-const getLaunchpadPort = (ports) =>
-  // ports.find((port) => port.manufacturer === 'FTDI');
-  ports.find((port) => port.comName === 'COM4');
+// const getLaunchpadPort = (ports) =>
+// ports.find((port) => port.manufacturer === 'FTDI');
+// ports.find((port) => port.comName === 'COM4');
 
 // const Readline = require('@serialport/parser-readline')
 /* eslint-disable import/no-extraneous-dependencies */
@@ -38,7 +35,8 @@ const connectToSerialPort = () =>
         reject(err);
       }
 
-      const port = getLaunchpadPort(ports);
+      // const port = getLaunchpadPort(ports);
+      const port = getArduinoPort(ports);
 
       if (port === undefined) {
         console.log('Port not found.');
@@ -96,128 +94,140 @@ const actions = {
     parser.on('data', (data) => {
       let line = data.toString('ascii');
       line = line.slice(0, line.length - 1); // Remove new line character.
-      const argv = line.split(' ');
+      const [cmd, ...args] = line.match(/\w+|"[^"]+"/g);
 
-      const program = getProgram();
-      program
-        .command('TIC_TAC_TOE [player1] [player2]')
-        .action((player1 = 'X', player2 = 'O') => {
+      switch (cmd) {
+        case TIC_TAC_TOE:
           if (state.screen !== TIC_TAC_TOE) {
             dispatch('setScreen', TIC_TAC_TOE);
           }
-          // TODO: add this action
-          dispatch('setTTTPlayers', player1, player2);
-        });
-
-
-      program
-      .command('SIMON_SAYS')
-      .option('-c', '--color <color>', 'Color')
-      .action(({ color }) => {
-        if (state.screen !== SIMON_SAYS) {
-          dispatch('setScreen', SIMON_SAYS);
+          break;
+        case SIMON_SAYS: {
+          const [color] = args;
+          if (state.screen !== SIMON_SAYS) {
+            dispatch('setScreen', SIMON_SAYS);
+          }
+          dispatch('setSSColor', color);
+          break;
         }
-        // TODO: Let component handle if it's undefined
-        dispatch('setSSColor', color);
-      });
-
-      program
-        .command('ROCK_PAPER_SCISSORS')
-        .action(() => {
+        case ROCK_PAPER_SCISSORS:
           if (state.screen !== ROCK_PAPER_SCISSORS) {
             dispatch('setScreen', ROCK_PAPER_SCISSORS);
           }
-        });
-
-      program
-        .command('TRIVIA')
-        .option(
-          '-q',
-          '--question <question> <choice1> <choice2> <choice3> <choice4> [answer]',
-          'Question to display and highlight the answer if answer provided (answer range is 1-4)',
-        )
-        .action(({ question }) => {
+          break;
+        case TRIVIA: {
+          const question = args;
           if (state.screen !== TRIVIA) {
             dispatch('setScreen', TRIVIA);
           }
           // May include answer (let component handle it)
-          // TODO: Also let component handle whether it's undefined
-          // TODO: add this action
           dispatch('setQuestion', question);
-        });
-
-      program.command('MAIN').action(() => {
-        if (state.screen !== MAIN) {
-          dispatch('setScreen', MAIN);
+          break;
         }
-      });
-
-      program
-        .command('TIME_AND_DOWN')
-        .option('-q, --quarter <quarter>', 'Quarter')
-        .option('-m, --minutes <minutes>', 'Minutes')
-        .option('-s, --seconds <seconds>', 'Seconds')
-        .option('-o, --down <down>', 'Down')
-        .option('-i, --distance <distance>', 'Distance')
-        .parse(['TIME_AND_DOWN', '-q', '2'])
-        .action(
-          ({
-            quarter = state.quarter,
-            minutes = state.minutes,
-            seconds = state.seconds,
-            down = state.down,
-            distance = state.distance,
-          }) => {
-            if (state.screen !== TIME_AND_DOWN) {
-              dispatch('setScreen', TIME_AND_DOWN);
-            }
-            const time =
-              Number(seconds) < 10
-                ? `${minutes}:0${seconds}`
-                : `${minutes}:${seconds}`;
-            dispatch('setTimeAndDown', { quarter, time, down, distance });
-          },
-        );
-
-      program.command('WELCOME').action(() => {
-        if (state.screen !== WELCOME) {
-          dispatch('setScreen', WELCOME);
+        case SELECT_PLAY: {
+          if (state.screen !== SELECT_PLAY) {
+            dispatch('setScreen', SELECT_PLAY);
+          }
+          break;
         }
-      });
-
-      program.command('SELECT_PLAY').action(() => {
-        if (state.screen !== SELECT_PLAY) {
-          dispatch('setScreen', SELECT_PLAY);
-        }
-      });
-
-      program
-        .command('OUTCOME')
-        .option('-h', '--html', 'HTML string to display')
-        .action(({ html }) => {
+        case OUTCOME: {
+          const [html] = args;
           if (state.screen !== OUTCOME) {
             dispatch('setScreen', OUTCOME);
           }
           // TODO: add this action
           dispatch('setOutcome', html);
-        });
-
-      program.command('END_Q').action(() => {
-        if (state.screen !== END_Q) {
-          dispatch('setScreen', END_Q);
+          break;
         }
-      });
-      program.command('*').action((env) => {
-        console.error('unknown command: %s', env);
-      });
+        case TIME_AND_DOWN: {
+          const [quarter, minutes, seconds, down, distance] = args;
+          if (state.screen !== TIME_AND_DOWN) {
+            dispatch('setScreen', TIME_AND_DOWN);
+          }
+          const time =
+            Number(seconds) < 10 && Number(seconds) !== 0
+              ? `${minutes}:0${seconds}`
+              : `${minutes}:${seconds}`;
+          dispatch('setTimeAndDown', { quarter, time, down, distance });
+          break;
+        }
+        default:
+          console.log('Bad Command: %s', cmd);
+      }
 
-      program.parse(argv);
+      // program.command('MAIN').action(() => {
+      //   if (state.screen !== MAIN) {
+      //     dispatch('setScreen', MAIN);
+      //   }
+      // });
+
+      // program
+      //   .command('TIME_AND_DOWN')
+      //   .option('-q, --quarter <quarter>', 'Quarter')
+      //   .option('-m, --minutes <minutes>', 'Minutes')
+      //   .option('-s, --seconds <seconds>', 'Seconds')
+      //   .option('-o, --down <down>', 'Down')
+      //   .option('-i, --distance <distance>', 'Distance')
+      //   .parse(['TIME_AND_DOWN', '-q', '2'])
+      //   .action(
+      //     ({
+      //       quarter = state.quarter,
+      //       minutes = state.minutes,
+      //       seconds = state.seconds,
+      //       down = state.down,
+      //       distance = state.distance,
+      //     }) => {
+      //       if (state.screen !== TIME_AND_DOWN) {
+      //         dispatch('setScreen', TIME_AND_DOWN);
+      //       }
+      //       const time =
+      //         Number(seconds) < 10
+      //           ? `${minutes}:0${seconds}`
+      //           : `${minutes}:${seconds}`;
+      //       dispatch('setTimeAndDown', { quarter, time, down, distance });
+      //     },
+      //   );
+
+      // program.command('WELCOME').action(() => {
+      //   if (state.screen !== WELCOME) {
+      //     dispatch('setScreen', WELCOME);
+      //   }
+      // });
+
+      // program.command('SELECT_PLAY').action(() => {
+      //   if (state.screen !== SELECT_PLAY) {
+      //     dispatch('setScreen', SELECT_PLAY);
+      //   }
+      // });
+
+      // program
+      //   .command('OUTCOME')
+      //   .option('-h', '--html', 'HTML string to display')
+      //   .action(({ html }) => {
+      //     if (state.screen !== OUTCOME) {
+      //       dispatch('setScreen', OUTCOME);
+      //     }
+      //     // TODO: add this action
+      //     dispatch('setOutcome', html);
+      //   });
+
+      // program.command('END_Q').action(() => {
+      //   if (state.screen !== END_Q) {
+      //     dispatch('setScreen', END_Q);
+      //   }
+      // });
+      // program.command('*').action((env) => {
+      //   console.error('unknown command: %s', env);
+      // });
+
+      // console.log(argv);
+      // program.parse(argv);
     }); // emits data after every '\n'
   },
   // Sending 1 or 2 for player 1 and player 2
   // Sending a 0 means a tie.
   async sendWin(player) {
-    serialPort.write(`${player}\n`);
+    serialPort.write(`${player}`);
   },
 };
 

@@ -29,6 +29,9 @@ const actions = {
       commit('SET_SIMON_SAYS_COLOR', state.colors[i]);
     }
   },
+  setSSColor({ commit }, color) {
+    commit('SET_SIMON_SAYS_COLOR', { color });
+  },
 };
 
 export default {

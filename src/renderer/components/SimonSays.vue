@@ -1,35 +1,28 @@
 <template>
-<!-- TODO: add condition to select background color -->
-	<div class="container red">
-		<div>Simon Says</div>
-	</div>
+  <!-- TODO: add condition to select background color -->
+  <div v-bind:style="{ backgroundColor: color || 'white' }" class="container">
+    <div>Simon Says</div>
+    <h1 v-if="color === undefined">Ready?</h1>
+  </div>
 </template>
 
 <script>
-  export default {
-    name: 'simon-says',
-  };
+import { mapGetters } from 'vuex';
+
+export default {
+  name: 'simon-says',
+  computed: {
+    ...mapGetters(['getSimonSaysColor']),
+    color() {
+      return this.getSimonSaysColor;
+    },
+  },
+};
 </script>
 
 <style scoped>
-	.container {
-		width: 100vw;
-		height: 100vh;
-	}
-
-	.red {
-		background-color: red;
-	}
-
-	.blue {
-		background-color: blue;
-	}
-
-	.green {
-		background-color: green;
-	}
-
-	.yellow {
-		background-color: yellow;
-	}
+.container {
+  width: 100vw;
+  height: 100vh;
+}
 </style>

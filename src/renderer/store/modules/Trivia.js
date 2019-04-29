@@ -16,8 +16,15 @@ const getters = {
   },
 };
 
+const actions = {
+  setQuestion({ commit }, question) {
+    commit('SET_QUESTION', { question });
+  },
+};
+
 export default {
   state,
   mutations,
   getters,
+  actions,
 };

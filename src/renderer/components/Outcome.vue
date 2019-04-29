@@ -1,15 +1,21 @@
 <template>
   <div>
     <h1>Outcome</h1>
-    <div>+5 yards</div>
-    <div>+0 yards</div>
-    <div>+20 yards</div>
+    <h2>{{ outcome }}</h2>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'outcome',
+  computed: {
+    ...mapGetters(['getOutcome']),
+    outcome() {
+      return this.getOutcome;
+    },
+  },
 };
 </script>
 
