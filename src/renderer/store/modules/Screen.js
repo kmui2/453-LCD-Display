@@ -10,6 +10,7 @@ import {
   TIC_TAC_TOE,
   TRIVIA,
   TIME_AND_DOWN,
+  WELCOME,
 } from '../../constants/screens';
 
 // const program = () => require('commander');
@@ -149,6 +150,12 @@ const actions = {
               ? `${minutes}:0${seconds}`
               : `${minutes}:${seconds}`;
           dispatch('setTimeAndDown', { quarter, time, down, distance });
+          break;
+        }
+        case WELCOME: {
+          if (state.screen !== WELCOME) {
+            dispatch('setScreen', WELCOME);
+          }
           break;
         }
         default:
