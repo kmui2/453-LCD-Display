@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import * as SerialPort from 'serialport';
-import * as program from 'commander';
 import {
   ROCK_PAPER_SCISSORS,
   SIMON_SAYS,
@@ -14,8 +13,10 @@ import {
   END_Q,
 } from '../../constants/screens';
 
+const getProgram = () => require('commander');
+
 // const program = () => require('commander');
-global.program = program;
+// global.program = program;
 
 // const getArduinoPort = (ports) =>
 //   ports.find((port) => port.manufacturer === 'Arduino (www.arduino.cc)');
@@ -96,30 +97,35 @@ const actions = {
       let line = data.toString('ascii');
       line = line.slice(0, line.length - 1); // Remove new line character.
       const argv = line.split(' ');
-      // eslint-disable-next-line no-unused-vars
+
+      const program = getProgram();
       program
-        .command('ROCK_PAPER_SCISSORS')
-        .option('-1', '--player1 <move>', "Player 1's move")
-        .option('-2', '--player2 <move>', "Player 2's move")
-        .action(({ player1, player2 }) => {
-          if (state.screen !== ROCK_PAPER_SCISSORS) {
-            dispatch('setScreen', ROCK_PAPER_SCISSORS);
-          }
-        });
-      program
-        .command('SIMON_SAYS')
-        .option('-c', '--color <color>', 'Color')
-        .action(({ color = 'placeholder' }) => {
-          if (state.screen !== SIMON_SAYS) {
-            dispatch('setScreen', SIMON_SAYS);
-          }
-        });
-      program
-        .command('TIC_TAC_TOE')
-        .option('-m', '--markers <player1> <player2>', "Player's markers")
-        .action(({ markers: [player1, player2] }) => {
+        .command('TIC_TAC_TOE [player1] [player2]')
+        .action((player1 = 'X', player2 = 'O') => {
           if (state.screen !== TIC_TAC_TOE) {
             dispatch('setScreen', TIC_TAC_TOE);
+          }
+          // TODO: add this action
+          dispatch('setTTTPlayers', player1, player2);
+        });
+
+
+      program
+      .command('SIMON_SAYS')
+      .option('-c', '--color <color>', 'Color')
+      .action(({ color }) => {
+        if (state.screen !== SIMON_SAYS) {
+          dispatch('setScreen', SIMON_SAYS);
+        }
+        // TODO: Let component handle if it's undefined
+        dispatch('setSSColor', color);
+      });
+
+      program
+        .command('ROCK_PAPER_SCISSORS')
+        .action(() => {
+          if (state.screen !== ROCK_PAPER_SCISSORS) {
+            dispatch('setScreen', ROCK_PAPER_SCISSORS);
           }
         });
 
@@ -127,18 +133,17 @@ const actions = {
         .command('TRIVIA')
         .option(
           '-q',
-          '--question <question> <choice1> <choice2> <choice3> <choice4>',
-          'Question to display',
+          '--question <question> <choice1> <choice2> <choice3> <choice4> [answer]',
+          'Question to display and highlight the answer if answer provided (answer range is 1-4)',
         )
-        .option(
-          '-a',
-          '--answer <answer_number>',
-          'Highlight the choice (must include the --question option)',
-        )
-        .action(() => {
+        .action(({ question }) => {
           if (state.screen !== TRIVIA) {
             dispatch('setScreen', TRIVIA);
           }
+          // May include answer (let component handle it)
+          // TODO: Also let component handle whether it's undefined
+          // TODO: add this action
+          dispatch('setQuestion', question);
         });
 
       program.command('MAIN').action(() => {
@@ -186,19 +191,24 @@ const actions = {
         }
       });
 
-      program.command('OUTCOME').action(() => {
-        if (state.screen !== OUTCOME) {
-          dispatch('setScreen', OUTCOME);
-        }
-      });
+      program
+        .command('OUTCOME')
+        .option('-h', '--html', 'HTML string to display')
+        .action(({ html }) => {
+          if (state.screen !== OUTCOME) {
+            dispatch('setScreen', OUTCOME);
+          }
+          // TODO: add this action
+          dispatch('setOutcome', html);
+        });
 
       program.command('END_Q').action(() => {
         if (state.screen !== END_Q) {
           dispatch('setScreen', END_Q);
         }
       });
-      program.command('*').action(() => {
-        console.error('unknown command:');
+      program.command('*').action((env) => {
+        console.error('unknown command: %s', env);
       });
 
       program.parse(argv);
