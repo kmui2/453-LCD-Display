@@ -31,7 +31,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 1em;
+  padding: 1em;
 }
 
 .logo {
