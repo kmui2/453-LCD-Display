@@ -16,7 +16,7 @@ import {
 // const program = () => require('commander');
 // global.program = program;
 
-//const getArduinoPort = (ports) =>
+// const getArduinoPort = (ports) =>
 //  ports.find((port) => port.manufacturer === 'Arduino (www.arduino.cc)');
 
 const getLaunchpadPort = (ports) =>
@@ -160,7 +160,7 @@ const actions = {
           break;
         }
         default:
-          console.log(cmd);
+        // no default
       }
 
       // program.command('MAIN').action(() => {
