@@ -16,12 +16,12 @@ import {
 // const program = () => require('commander');
 // global.program = program;
 
-const getArduinoPort = (ports) =>
-  ports.find((port) => port.manufacturer === 'Arduino (www.arduino.cc)');
+//const getArduinoPort = (ports) =>
+//  ports.find((port) => port.manufacturer === 'Arduino (www.arduino.cc)');
 
-// const getLaunchpadPort = (ports) =>
+const getLaunchpadPort = (ports) =>
 // ports.find((port) => port.manufacturer === 'FTDI');
-// ports.find((port) => port.comName === 'COM4');
+ports.find((port) => port.comName === '/dev/ttyACM0');
 
 // const Readline = require('@serialport/parser-readline')
 /* eslint-disable import/no-extraneous-dependencies */
@@ -36,8 +36,8 @@ const connectToSerialPort = () =>
         reject(err);
       }
 
-      // const port = getLaunchpadPort(ports);
-      const port = getArduinoPort(ports);
+      const port = getLaunchpadPort(ports);
+      // const port = getArduinoPort(ports);
 
       if (port === undefined) {
         console.log('Port not found.');
