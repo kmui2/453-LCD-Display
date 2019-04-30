@@ -38,8 +38,8 @@ const connectToSerialPort = () =>
         reject(err);
       }
 
-      // const port = getLaunchpadPort(ports);
-      const port = getArduinoPort(ports);
+      const port = getLaunchpadPort(ports);
+      // const port = getArduinoPort(ports);
 
       if (port === undefined) {
         console.log('Port not found.');
