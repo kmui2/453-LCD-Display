@@ -43,11 +43,15 @@ const winningStates = {
 };
 
 const actions = {
-  async checkForWin({ state }, lastMove) {
-    return winningStates[lastMove].some(
+  async checkForWin({ state, commit }, lastMove) {
+    if (winningStates[lastMove].some(
       ([req1, req2]) =>
         state.grid[req1] === state.player && state.grid[req2] === state.player,
-    );
+    )) {
+      commit('CLEAR_TIC_TAC_TOE');
+      return true;
+    }
+    return false;
   },
 
   setTicTacToePlayer({ commit }, player) {
