@@ -10,6 +10,7 @@ import {
   TIC_TAC_TOE,
   TRIVIA,
   TIME_AND_DOWN,
+  WELCOME,
 } from '../../constants/screens';
 
 // const program = () => require('commander');
@@ -94,6 +95,7 @@ const actions = {
     parser.on('data', (data) => {
       let line = data.toString('ascii');
       line = line.slice(0, line.length - 1); // Remove new line character.
+      console.log("Received %s", line);
       const [cmd, ...args] = line.match(/\w+|"[^"]+"/g);
 
       switch (cmd) {
@@ -149,6 +151,12 @@ const actions = {
               ? `${minutes}:0${seconds}`
               : `${minutes}:${seconds}`;
           dispatch('setTimeAndDown', { quarter, time, down, distance });
+          break;
+        }
+        case WELCOME: {
+          if (state.screen !== WELCOME) {
+            dispatch('setScreen', WELCOME);
+          }
           break;
         }
         default:
