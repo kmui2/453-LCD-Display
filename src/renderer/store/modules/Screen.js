@@ -160,7 +160,7 @@ const actions = {
           break;
         }
         default:
-          console.log('Bad Command: %s', cmd);
+          console.log(cmd);
       }
 
       // program.command('MAIN').action(() => {
