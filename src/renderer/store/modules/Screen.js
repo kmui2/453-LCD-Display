@@ -73,7 +73,7 @@ const connectToSerialPort = () =>
   });
 
 const state = {
-  screen: WELCOME,
+  screen: OUTCOME,
   // serialPort: undefined,
 };
 
@@ -89,6 +89,9 @@ let serialPort;
 
 const actions = {
   setScreen({ commit }, screen) {
+    if (screen === TIC_TAC_TOE) {
+      commit('CLEAR_TIC_TAC_TOE');
+    }
     commit('SET_SCREEN', { screen });
   },
   async startPortRead({ dispatch, state }) {
