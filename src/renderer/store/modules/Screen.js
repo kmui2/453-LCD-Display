@@ -143,6 +143,7 @@ const actions = {
           dispatch('setOutcome', html);
           break;
         }
+        case 'TIME':
         case TIME_AND_DOWN: {
           const [quarter, minutes, seconds, down, distance] = args;
           const time =
