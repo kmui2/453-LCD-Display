@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>Tic Tac Toe</div>
+    <header-title title="Tic Tac Toe"></header-title>
     <div class="grid">
       <div style="grid-area-0" v-bind:class="{ active: grid[0] }" v-on:click="handleClick(0)">
         <h1>{{ grid[0] }}</h1>
@@ -35,6 +35,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import HeaderTitle from './HeaderTitle';
 
 export default {
   name: 'tic-tac-toe',
@@ -52,6 +53,7 @@ export default {
       this.setTicTacToeSquare(i);
     },
   },
+  components: { HeaderTitle },
 };
 </script>
 

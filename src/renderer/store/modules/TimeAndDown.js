@@ -1,8 +1,8 @@
 const state = {
-  quarter: '1stQ',
+  quarter: '1',
   time: '0:00',
   down: '1st',
-  distance: '0',
+  distance: '10',
 };
 
 const mutations = {

@@ -2,7 +2,7 @@
 import * as SerialPort from 'serialport';
 
 import {
-  END_Q,
+  // END_Q,
   OUTCOME,
   ROCK_PAPER_SCISSORS,
   SELECT_PLAY,
@@ -16,12 +16,14 @@ import {
 // const program = () => require('commander');
 // global.program = program;
 
-// const getArduinoPort = (ports) =>
-//  ports.find((port) => port.manufacturer === 'Arduino (www.arduino.cc)');
+// eslint-disable-next-line no-unused-vars
+const getArduinoPort = (ports) =>
+  ports.find((port) => port.manufacturer === 'Arduino (www.arduino.cc)');
 
+// eslint-disable-next-line no-unused-vars
 const getLaunchpadPort = (ports) =>
-// ports.find((port) => port.manufacturer === 'FTDI');
-ports.find((port) => port.comName === '/dev/ttyACM0');
+  // ports.find((port) => port.manufacturer === 'FTDI');
+  ports.find((port) => port.comName === '/dev/ttyACM0');
 
 // const Readline = require('@serialport/parser-readline')
 /* eslint-disable import/no-extraneous-dependencies */
@@ -36,8 +38,8 @@ const connectToSerialPort = () =>
         reject(err);
       }
 
-      const port = getLaunchpadPort(ports);
-      // const port = getArduinoPort(ports);
+      // const port = getLaunchpadPort(ports);
+      const port = getArduinoPort(ports);
 
       if (port === undefined) {
         console.log('Port not found.');
@@ -71,7 +73,7 @@ const connectToSerialPort = () =>
   });
 
 const state = {
-  screen: END_Q,
+  screen: WELCOME,
   // serialPort: undefined,
 };
 
@@ -95,7 +97,7 @@ const actions = {
     parser.on('data', (data) => {
       let line = data.toString('ascii');
       line = line.slice(0, line.length - 1); // Remove new line character.
-      console.log("Received %s", line);
+      console.log('Received %s', line);
       const [cmd, ...args] = line.match(/\w+|"[^"]+"/g);
 
       switch (cmd) {
@@ -143,9 +145,6 @@ const actions = {
         }
         case TIME_AND_DOWN: {
           const [quarter, minutes, seconds, down, distance] = args;
-          if (state.screen !== TIME_AND_DOWN) {
-            dispatch('setScreen', TIME_AND_DOWN);
-          }
           const time =
             Number(seconds) < 10 && Number(seconds) !== 0
               ? `${minutes}:0${seconds}`

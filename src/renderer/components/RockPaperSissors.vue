@@ -1,14 +1,17 @@
 <template>
   <div>
-    <h1>Rock Paper Sissors</h1>
+    <header-title title="Rock Paper Sissors"></header-title>
     <h2>Make Your Selection</h2>
     <img src="../assets/Rock-paper-scissors.jpg" class="picture">
   </div>
 </template>
 
 <script>
+import HeaderTitle from './HeaderTitle';
+
 export default {
   name: 'rock-paper-sissors',
+  components: { HeaderTitle },
 };
 </script>
 

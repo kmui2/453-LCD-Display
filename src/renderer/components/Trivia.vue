@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>Trivia</div>
+    <header-title title="Trivia"></header-title>
     <div class="grid" v-if="question !== undefined">
       <div class="question">
         <h1>{{ question[0] }}</h1>
@@ -25,6 +25,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import HeaderTitle from './HeaderTitle';
 
 export default {
   name: 'trivia',
@@ -34,13 +35,14 @@ export default {
       return this.getQuestion;
     },
   },
+  components: { HeaderTitle },
 };
 </script>
 
 <style scoped>
 .grid {
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   display: grid;
   grid-template-areas:
     'question'
@@ -56,5 +58,13 @@ export default {
     'C D';
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr 1fr;
+}
+
+.choices-grid > div {
+  display: flex;
+}
+
+.choices-grid > div > h2 {
+  margin: auto;
 }
 </style>

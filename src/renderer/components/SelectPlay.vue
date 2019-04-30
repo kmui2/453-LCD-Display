@@ -1,12 +1,14 @@
 <template>
   <div>
-    <h1>Select your play</h1>
+    <header-title title="Select Play"></header-title>
   </div>
 </template>
 
 <script>
+import HeaderTitle from './HeaderTitle';
 export default {
   name: 'select-play',
+  components: { HeaderTitle },
 };
 </script>
 
